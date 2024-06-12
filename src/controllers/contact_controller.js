@@ -1,19 +1,20 @@
 
 const contactService = require('../services/contact_service');
-const sendEmail = require('../untils/nodemailer')
+const sendEmail = require('../utils/nodemailer')
+const emailSettingsService = require('../services/setting_service')
 
 module.exports = {
     getContact : async(req, res, next) => {
         // let query = (req.query.status) ? {status: req.query.status} : {}
-        const contact = await contactService.getContactList({});
-        res.render('backend/page/contact/list', {contact})
+        const contacts = await contactService.getContactList({});
+        res.render('backend/page/contact/list', {contacts})
 
-        // const allCategories = await categoryService.getCategoryList({})
-        // const activeCategories = allCategories.filter(category => category.status === 'active');
-        // const inactiveCategories = allCategories.filter(category => category.status === 'inactive');
+        // const categories = await categoryService.getCategoryList({})
+        // const activeCategories = categories.filter(category => category.status === 'active');
+        // const inactiveCategories = categories.filter(category => category.status === 'inactive');
 
         // res.render('backend/page/category/list', {categories, linkChangStatus,
-        //     allCategories,
+        //     categories,
         //     activeCategories: activeCategories.length,
         //     inactiveCategories: inactiveCategories.length })
     },
@@ -25,7 +26,7 @@ module.exports = {
             let contact = {
                 "name": "",
                 "email":"",
-                "status": "novalue"
+                "status": "active"
             }
             if(contactId) contact = await contactService.getContactById(contactId);
             res.render('backend/page/contact/form',{contact }); 
@@ -35,15 +36,16 @@ module.exports = {
     },
 
     addContact : async (req , res , next) => {
-        const data = req.body
+        const FormData = req.body
         try {
-            const result = await contactService.addContact(data);
-            const receiver_mail = result.email;
-            sendEmail(receiver_mail, 'Test Subject', 'Test Message');
+            const result = await contactService.addContact(FormData);
+            const emailSettings = await emailSettingsService.getEmailSettings();
             if(result._id) {
+                await sendEmail(emailSettings.senderEmail, emailSettings.senderName,
+                     FormData.email, emailSettings.senderSubject, emailSettings.senderMessage);
                 res.send({
                     success: true
-                })
+                });
                 // req.flash('success', 'Contact updated successfully!',false);
                 // res.redirect('/admin/contact');
             } 
@@ -64,6 +66,11 @@ module.exports = {
         }
     },
 
+    deleteContactById : async (req , res , next) => {
+        const contactId = req.params.id;
+        await contactService.deleteContactById(contactId);
+        res.redirect('/admin/contact')
+    },
     // deleteCategoryById : async (req , res , next) => {
     //     const categoryId = req.params.id;
     //     try {

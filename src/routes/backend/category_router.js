@@ -2,46 +2,45 @@ const express = require('express')
 
 const router = express.Router()
 const categoryController = require('../../controllers/category_controller')
-const validator = require('../../untils/validator')
+const {asyncHandle} = require('../../utils/asyncHandle');
 
 router
     .route('/')
-    .get(categoryController.getCategory)
+    .get(asyncHandle(categoryController.getCategory))
 
 router
     .route('/form/:id')
-    .post(categoryController.updateCategoryById)
+    .post(asyncHandle(categoryController.updateCategoryById))
 
 router
     .route('/form(/:id)?')
-    .get(categoryController.getCategoryById)
+    .get(asyncHandle(categoryController.getCategoryById))
 
 router
     .route('/form')
-    .post(categoryController. addCategory)
+    .post(asyncHandle(categoryController. addCategory))
 
 router
     .route('/form/:id')
-    .delete(categoryController.deleteCategoryById)
+    .delete(asyncHandle(categoryController.deleteCategoryById))
 
 router
-    .route('/update-multi-status/:status')
-    .post(categoryController.updateMultiStatus)
+    .route('/update-multi-status')
+    .post(asyncHandle(categoryController.updateMultiStatus))
 
 router
     .route('/update-single-status')
-    .post(categoryController.updateSingleStatus)
+    .post(asyncHandle(categoryController.updateSingleStatus))
 
 router
     .route('/update-ordering')
-    .post(categoryController.updateOrdering)
+    .post(asyncHandle(categoryController.updateOrdering))    
 
 router
     .route('/')
-    .delete(categoryController.deleteCategory)
+    .delete(asyncHandle(categoryController.deleteCategory))
 
 router
     .route('/delete/:id')
-    .get(categoryController.deleteCategoryById)
-
+    .get(asyncHandle(categoryController.deleteCategoryById))
 module.exports = router;

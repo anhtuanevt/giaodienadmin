@@ -40,15 +40,19 @@ module.exports = {
         return await articleModel.findByIdAndDelete(articleId)
     },
 
-    updateStatus :  async (Ids, status) => {
-        try {
-            const result = await articleModel.updateMany(
-                { _id: { $in: Ids } }, 
-                { $set: { status: status } });
-            return Ids;
-        } catch (error) {
-            throw error;
-        }
+    updateSingleStatus :  async (id, status) => {
+        let newStatus  = status == 'active' ? 'inactive' : 'active'
+        const result = await articleModel.findByIdAndUpdate( id,
+            {status: newStatus}, {new: true}
+        );
+        return result
+    },
+
+    updateMultiStatus :  async (Ids, status) => {
+        const result = await articleModel.updateMany(
+            { _id: { $in: Ids } }, 
+            { $set: { status: status } });
+        return result;
     },
 
     updateThumbnail : async (articleId, file) => {

@@ -4,7 +4,7 @@ const linkPrefix='admin/contact' ;
 const linkThumb='' ; 
  %>
     <div class="card card-info card-outline" >
-        <form  data-id="<%=contact._id %>" method="POST" class="mb-0" id="submit-data-form" onsubmit="handleFormSubmit(event, '<%=contact._id %>')">
+        <form  data-id="<%=contact._id %>" method="POST" class="mb-0" id="contact-form" onsubmit="submitContact(event, '<%=contact._id %>')">
             <div class="card-body">
                 <h1>
                     Add - Form 
@@ -27,7 +27,6 @@ const linkThumb='' ;
                     <label for="status" class="col-sm-2 col-form-label text-sm-right">Status</label>
                     <div class="col-xs-12 col-sm-8">
                         <select id="status-select-form" name="status" class="custom-select custom-select-sm">
-                            <option value="novalue" <% if (contact.status  === 'novalue') { %>selected<% } %>>Choose Status</option>
                             <option value="active" <% if (contact.status  === 'active') { %>selected<% } %>>Active</option>
                             <option value="inactive" <% if (contact.status === 'inactive') { %>selected<% } %>>Inactive</option>
                         </select>

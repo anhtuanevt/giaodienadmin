@@ -20,17 +20,17 @@
 				<div class="btn-search">
 					<a href="<%=linkPrefix%>">
 						<button type="button" class="btn btn-info ${items.class}">
-							All (<span></span>)
+							All (<span><%=contacts.length%></span>)
 						</button>
 					</a>
 					<a href="<%=linkPrefix%>?status=active">
 						<button type="button" class="btn btn-info ${items.class}">
-							Active (<span></span>)
+							Active (<span><%=contacts.filter(contact => contact.status === 'active').length%></span>)
 						</button>
 					</a>
 					<a href="<%=linkPrefix%>?status=inactive">
 						<button type="button" class="btn btn-info ${items.class}">
-							Inactive (<span></span>)
+							Inactive (<span><%=contacts.filter(contact => contact.status === 'inactive').length%></span>)
 						</button>
 					</a>
 				</div>
@@ -90,23 +90,24 @@
 					<tr>
 						<th class="text-center">
 							<div class="custom-control custom-checkbox">
-								<input class="custom-control-input cbAll" type="checkbox" id="check-all">
+								<input class="custom-control-input checkAll" type="checkbox" id="check-all">
 								<label for="check-all" class="custom-control-label"></label>
 							</div>
 						</th>
 						<th class="text-center">#</a></th>
 						<th class="text-center">Name</a></th>
 						<th class="text-center">Status</a></th>
+						<th class="text-center">Email</a></th>
 						<th class="text-center">Description</a></th>
 						<th class="text-center">Action</th>
 					</tr>
 				</thead>
 				<tbody>
-					<% contact.forEach(function(contact, index) { %>
+					<% contacts.forEach(function(contact, index) { %>
                     <tr>
 						<td class="text-center">
 							<div class="custom-control custom-checkbox">
-								<input class="custom-control-input" type="checkbox" name="cid" id="check<%=index+1%>" value="<%=index+1%>">
+								<input class="custom-control-input checkbox" type="checkbox" name="cid" id="check<%=index+1%>" value="<%=index+1%>">
 								<label for="check<%=index+1%>" class="custom-control-label"></label>
 							</div>
 						</td>
@@ -119,6 +120,7 @@
 								<i class="fas <%= contact.status === 'active' ? 'fa-check' : 'fa-ban' %>"></i>
 							</a>
 						</td>
+						<td class="text-center"><span><%=contact.email%></span></td>
 
 						<td class="text-center"><span><%=contact.message%></span></td>
 
@@ -127,7 +129,7 @@
 								<i class="fas fa-pencil-alt"></i>
 							</a>
          
-							<a href="<%=linkPrefix%>/delete/<%=contact._id%>" class="rounded-circle btn btn-sm btn-danger">
+							<a href="javascript:void(0);" onclick="confirmDelete('<%= linkPrefix %>/delete/<%=contact._id %>')" class="rounded-circle btn btn-sm btn-danger">
 								<i class="fas fa-trash-alt"></i>
 							</a>
 							<!-- <button type="button" class="rounded-circle btn btn-sm btn-danger">

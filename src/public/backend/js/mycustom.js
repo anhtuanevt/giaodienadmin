@@ -1,13 +1,16 @@
 const categoryUrl = '/admin/category'
 const articleUrl = '/admin/article'
 const contactUrl = '/admin/contact'
+const settingsUrl = '/admin/settings'
+const checkboxAll = $('.check-all');
+const checkbox = $('.checkbox');
 
-
-const handleFormSubmit = (event, id) => {
+const submitContact = (event, id) => {
     event.preventDefault()
-    const method = id? PUT : POST
-    const data = $('#submit-data-form').serialize();
-    $.$.ajax({
+    const data = $('#contact-form').serialize();
+    const method = id ? "PUT" : "POST";
+    console.log(data, 'data')
+    $.ajax({
         type: method,
         url: `/admin/contact/form/${id}`,
         data: data,
@@ -43,7 +46,6 @@ const changeStatus = (url, id, status) => {
     );
 }
 
-
  const activeMenuOnClick = (menu, pathUrl) => {
      let currentURL = window.location.pathname;
     if (currentURL.includes(pathUrl)) {
@@ -51,40 +53,114 @@ const changeStatus = (url, id, status) => {
     }
  }
  
-const previewFile = () =>{
-    const preview = document.querySelector('#preview');
-    const file = document.querySelector('#thumbnail-input-form').files[0];
-    const reader = new FileReader();
+ const previewImages = () => {
+    var preview = document.getElementById('image-preview');
+    preview.innerHTML = ''; 
+    var files = document.getElementById('thumbnail-input').files;
 
-    reader.addEventListener("load", function () {
-        preview.src = reader.result;
-    }, false);
-    if (file) {
-        reader.readAsDataURL(file);
+    if (files) {
+        Array.from(files).forEach(file => {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.width = '100px'; 
+                img.style.height = '100px'; 
+                img.style.marginRight = '10px';
+                preview.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        });
     }
 }
 
-// const deleteItem = (id) => {
-//     const data = { ids: [id] };
-//     $.ajax({
-//         type: "DELETE",
-//         url: "/admin/category",
-//         data: JSON.stringify(data),
-//         dataType: "json",
-//         success: function (response) {
-//             if(response.success){
-//                 console.log(response,data)
-//             }
-//         },
-//     });
-// } 
+const confirmDelete = (url) => {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you really want to delete this item?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = url;
+        }
+    });
+}
+
+  // check all checkbox
+const toggleSelectAll = (checkboxAll) => {
+    checkbox.prop('checked', checkboxAll.checked);
+}
+
+// get data id
+const getDataId = () => {
+    let ids = [];
+    checkbox.each(function(){
+        if($(this).is(':checked')){
+            ids.push($(this).data('id'));
+        }
+    })
+    return ids;
+}
+
+// change multi status
+const changeStatusAll = (status, link) => {
+    let linkChangStatus = `${link}/update-multi-status`
+    let ids = getDataId();
+    const data = {
+        ids,
+        status
+    }
+    $.post(linkChangStatus, data,
+        function (data, textStatus, jqXHR) {
+            if(data.success){
+                console.log(data)
+              window.location.href = link
+            }
+        },
+        "json"
+    );
+    console.log(data)
+}
+
+
+// deleteMulti
+const deleteMulti = (link) => {
+    console.log(link)
+    let Ids = getDataId()
+    console.log(typeof(Ids))
+    const data = {Ids}
+    console.log(Ids)
+    $.ajax({
+        type: "delete",
+        url: link,
+        data: data,
+        
+        dataType: "json",
+        success: function (response) {
+            console.log(response)
+            if(response.success){
+                // window.location.href = link
+            }
+        }
+    });
+}
 
 
 $(document).ready(function () { 
+    // tagify
+    let input = $('input[name="tags"][data-tagify]');
+    let tagify = new Tagify(input[0]);
+
     // active menu
     activeMenuOnClick('#category', categoryUrl);
     activeMenuOnClick('#article', articleUrl);
     activeMenuOnClick('#contact', contactUrl);
+    activeMenuOnClick('#settings', settingsUrl);
+    
     if ($('#description').length) {
         CKEDITOR.replace('description');
     }
@@ -107,7 +183,99 @@ $(document).ready(function () {
        );
     })
 
-    // Turn input element into a pond
+// search handle
+
+// function highlightText(node, keyword) {
+//     if (node.nodeType === 3) { // Text node
+//         const regex = new RegExp(`(${keyword})`, 'gi');
+//         const newHtml = node.nodeValue.replace(regex, '<span class="highlight1">$1</span>');
+//         $(node).replaceWith(newHtml);
+//     } else {
+//         $(node).contents().each(function() {
+//             highlightText(this, keyword);
+//         });
+//     }
+// }
+
+// function clearHighlights(node) {
+//     $(node).find('span.highlight').each(function() {
+//         $(this).replaceWith($(this).text());
+//     });
+// }
+
+// $('#keyword').on('input', function() {
+//     const keyword = $(this).val().trim();
+//     $('td.text-center span').each(function() {
+//         clearHighlights(this);
+//         if (keyword !== '') {
+//             highlightText(this, keyword);
+//         }
+//     });
+// });
+
+$('#btn-clear').on('click', function(event) {
+    event.preventDefault();
+    $('#keyword').val('');
+    $('td.text-center span').each(function() {
+        clearHighlights(this);
+    });
+});
+
+
+// save email settings
+$('#saveEmailSettings').click(function() {
+    var senderName = $('#senderName').val();
+    var senderEmail = $('#senderEmail').val();
+    var subject = $('#templateSubject').val();
+    var message = $('#templateBody').val();
+
+    $.ajax({
+        url: '/admin/settings/email-settings', 
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            senderName: senderName,
+            senderEmail: senderEmail,
+            subject: subject,
+            message: message
+        }),
+        success: function(response) {
+            alertify.confirm('Success', 'Email settings updated successfully!',
+            function() {
+                window.location.href = '/admin'; 
+            },
+            function() {
+                alertify.closeAll(); 
+            }).set('labels', {ok:'OK', cancel:'Cancel'});
+        },
+        error: function(xhr, status, error) {
+            alertify.error('Error updating email settings: ' + error);
+        }
+    });
+});
+
+})  
+
+
+
+
+
+// const deleteItem = (id) => {
+//     const data = { ids: [id] };
+//     $.ajax({
+//         type: "DELETE",
+//         url: "/admin/category",
+//         data: JSON.stringify(data),
+//         dataType: "json",
+//         success: function (response) {
+//             if(response.success){
+//                 console.log(response,data)
+//             }
+//         },
+//     });
+// } 
+
+// Turn input element into a pond
     //  FilePond.registerPlugin(FilePondPluginImagePreview);
 
     //  const inputElement = document.querySelector('input[name="thumbnail"]');
@@ -170,6 +338,3 @@ $(document).ready(function () {
     //     console.log('file added', file.file);
     //     //
     // });
-
-
-})  

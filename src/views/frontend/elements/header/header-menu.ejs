@@ -26,7 +26,7 @@
                 <li><a class="home" href="/">Home</a></li>
                 <% categories.forEach(category => { %>
                     <% if (category.status === 'active') { %>
-                        <li><a href="<%= category.slug %>"><%= category.name %></a></li>
+                        <li><a href="/<%= category.slug %>"><%= category.name %></a></li>
                     <% } %>
                 <% }); %>
             </ul>

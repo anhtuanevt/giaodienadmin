@@ -22,7 +22,7 @@
 				<div class="btn-search">
 					<a href="<%=linkPrefix%>">
 						<button type="button" class="btn btn-info ${items.class}">
-							All (<span><%=allCategories.length%></span>)
+							All (<span><%=categories.length%></span>)
 						</button>
 					</a>
 					<a href="<%=linkPrefix%>?status=active">
@@ -42,9 +42,9 @@
 			<div class="mb-1">
 				<form action="#" method="get">
 					<div class="input-group">
-						<input type="text" class="form-control form-control-sm" name="keyword" value="" placeholder="Search for..." style="min-width: 300px">
+						<input type="text" class="form-control form-control-sm" id="keyword" name="keyword" value="" placeholder="Search for..." style="min-width: 300px">
 						<div class="input-group-append">
-							<a type="button" class="btn btn-sm btn-danger"  href="#">Clear</a>
+							<a type="button" class="btn btn-sm btn-danger" id="btn-clear"  href="#">Clear</a>
 							<button type="submit" class="btn btn-sm btn-info" id="btn-search">Search</button>
 						</div>
 					</div>
@@ -62,20 +62,23 @@
 		<h4 class="card-title">List</h4>
 		<div class="card-tools">
 			<div class="btn-group">
-				<button type="button" class="btn btn-info" data-toggle="dropdown" aria-expanded="false">Change Status</button>
-				</>
-				<div class="dropdown-menu" role="menu" >
-					<button type="button" onClick="" class="dropdown-item" data-toggle="modal" data-target="#modal-success">
-						Change to Active
-						</button>
+				<button type="button" class="btn btn-info" data-toggle="dropdown" aria-expanded="false" >Change Status</button>
+				<div class="dropdown-menu" role="menu">
+					<div onclick="changeStatusAll('active', `<%=linkPrefix%>`)">
+						<button type="button" onClick="" class="dropdown-item" data-toggle="modal" data-target="#modal-success">
+							Change to Active
+							</button>
+					</div>
 					<div class="dropdown-divider"></div>
-						<button type="button" onClick="" class="dropdown-item" data-toggle="modal" data-target="#modal-danger">
+					<div onclick="changeStatusAll('inactive', `<%=linkPrefix%>`)">
+						<button type="button" onClick="" class="dropdown-item" data-toggle="modal" data-target="#modal-danger" >
 							Change to Inactive
 						</button>
 					</div>
+					</div>
 				</div>
 			<a href="<%=linkPrefix%>/form" class="btn btn-warning" style="background-color: #F0AD4E; color: white; font-weight: 500;">Add New</a>
-			<button type="button" class="btn btn-danger" onClick="" data-toggle="modal" data-target="#modal-danger">
+			<button type="button" class="btn btn-danger" onClick="deleteMulti('<%=linkPrefix%>')" data-toggle="modal" data-target="#modal-danger">
 				<i class="fas fa-trash-alt"></i>Delete Multi
 			</button>
 		</div>
@@ -92,8 +95,8 @@
 					<tr>
 						<th class="text-center">
 							<div class="custom-control custom-checkbox">
-								<input class="custom-control-input cbAll" type="checkbox" id="check-all">
-								<label for="check-all" class="custom-control-label"></label>
+								<input class="custom-control-input checkAll" type="checkbox" id="check-all" onclick="toggleSelectAll(this)">
+								<label for= "check-all" class="custom-control-label"></label>
 							</div>
 						</th>
 						<th class="text-center">#</a></th>
@@ -104,12 +107,12 @@
 					</tr>
 				</thead>
 				<tbody>
-					<% categories.forEach(function(category, index) { %>
+					<% filter_categories.forEach(function(category, index) { %>
                     <tr>
 						<td class="text-center">
 							<div class="custom-control custom-checkbox">
-								<input class="custom-control-input" type="checkbox" name="cid" id="check<%=index+1%>" value="<%=index+1%>">
-								<label for="check<%=index+1%>" class="custom-control-label"></label>
+								<input class="custom-control-input checkbox" type="checkbox" id="check-<%=index+1%>" name="cid" data-id="<%=category._id%>" value="<%=index+1%>">
+								<label for="check-<%=index+1%>" class="custom-control-label"></label>
 							</div>
 						</td>
 						<td class="text-center"><%=index+1%></td>
@@ -131,7 +134,7 @@
 								<i class="fas fa-pencil-alt"></i>
 							</a>
          
-							<a href="<%=linkPrefix%>/delete/<%=category._id%>" class="rounded-circle btn btn-sm btn-danger">
+							<a href="javascript:void(0);" onclick="confirmDelete('<%= linkPrefix %>/delete/<%= category._id %>')" class="rounded-circle btn btn-sm btn-danger">
 								<i class="fas fa-trash-alt"></i>
 							</a>
 							<!-- <button type="button" class="rounded-circle btn btn-sm btn-danger">
@@ -156,37 +159,3 @@
 		</div>
 </div>
 <form>
-
-<script>
-	    document.addEventListener('DOMContentLoaded', function () {
-        let deletedID;
-        let btnDeleted = document.getElementById('buttonDeleted');
-        let deleteForm = document.forms['deletedForm'];
-        let submitAllForm = document.forms['multipleForm'];
-        let btnCheckAll = $('#checkAll');
-        let btnCheck    = $('input[name="checkItem"]');
-        let btnSubmitAll = $('#buttonSubmitAll');
-        let isChecked;
-
-        // button check all has been checked
-        btnCheckAll.change(function (){
-            isChecked = btnCheckAll.prop('checked');
-            if(isChecked === false){
-                $('input[class="ordering"]').removeAttr('name');
-            }
-            else {
-                $('input[class="ordering"]').attr('name', 'ordering');
-            }
-            btnCheck.prop('checked',isChecked);
-            disableSubmit();
-
-        })
-
-
-    })
-
-
-
-	
-</script>	
-

@@ -1,17 +1,18 @@
 
 const articleService = require('../services/article_service');
+const linkChangStatus = '/admin/article/update-single-status'
 
 module.exports = {
     getArticle : async(req, res, next) => {
         const articles = await articleService.getArticleList();
-        res.render('backend/page/article/list', {articles})
+        res.render('backend/page/article/list', {articles, linkChangStatus})
     },
 
     getArticleById : async (req , res , next) => {
         try {
             const articleId = req.params.id;
             let article = {
-                status: "novalue"
+                status: "active"
             }
             const categories = res.locals.categories
             if (articleId) article = await articleService.getArticleById(articleId);
@@ -64,25 +65,31 @@ module.exports = {
          await categoryModel.findByIdAndUpdate(currentArticle.categoty_id, {
             $pull: { articles_id: articleId }
             })
-         res.send({
-             result
-         })
+         res.redirect('/admin/article')
         } catch (error) {
             res.send(error)
         }
     },
 
-    updateStatus : async (req , res , next) => {
-        const status = req.params.status;
-        const Ids= req.body.ids
-        try {
-         const result = await articleService.updateStatus(Ids, status);
-         res.send({
+    updateMultiStatus : async (req , res , next) => {
+        const data = req.body
+        const Ids= data['ids[]']
+        const status = data.status
+        console.log("data", Ids, status)
+        const result = await articleService.updateMultiStatus(Ids, status);
+        res.send({
+        success: true,
+        result
+        })
+    },
+
+    updateSingleStatus : async (req , res , next) => {
+        const {id, status} = req.body;
+        const result = await articleService.updateSingleStatus(id, status);
+        res.send({
+             success: true,
              result
          })
-        } catch (error) {
-            res.send(error)
-        }
     },
 
     uploadPhotos : async (req , res , next) => {

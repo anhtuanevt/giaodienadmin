@@ -17,9 +17,9 @@ module.exports = {
         return await ContactModel.findByIdAndUpdate(id, data, { new: true, runValidators: true })
     },
 
-    // deleteCategoryById :  async (categoryId) => {
-    //     return await categoryModel.findByIdAndDelete(categoryId)
-    // },
+    deleteContactById :  async (contactId) => {
+        return await ContactModel.findByIdAndDelete(contactId)
+    },
 
     // updateMultiStatus :  async (Ids, status) => {
     //     try {

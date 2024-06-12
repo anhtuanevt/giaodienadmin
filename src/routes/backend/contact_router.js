@@ -2,7 +2,7 @@ const express = require('express')
 
 const router = express.Router()
 const contactController = require('../../controllers/contact_controller')
-const validator = require('../../untils/validator')
+const validator = require('../../utils/validator')
 
 router
     .route('/')
@@ -19,6 +19,7 @@ router
 router
     .route('/form/:id')
     .post(contactController.updateContactById)
+
 
 // router
 //     .route('/form/:id')
@@ -40,8 +41,9 @@ router
 //     .route('/')
 //     .delete(categoryController.deleteCategory)
 
-// router
-//     .route('/delete/:id')
-//     .get(categoryController.deleteCategoryById)
+router
+    .route('/delete/:id')
+    .get(contactController.deleteContactById)
 
 module.exports = router;
+

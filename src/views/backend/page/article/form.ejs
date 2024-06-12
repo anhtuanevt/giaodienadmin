@@ -45,7 +45,6 @@
                     <label for="status" class="col-sm-2 col-form-label text-sm-right">Status</label>
                     <div class="col-xs-12 col-sm-8">
                         <select id="status-select-form" name="status" class="custom-select custom-select-sm">
-                            <option value="novalue">Choose Status</option>
                             <option value="active">
                                 Active</option>
                             <option value="inactive">
@@ -66,7 +65,6 @@
                     <label for="category" class="col-sm-2 col-form-label text-sm-right required">Category</label>
                     <div class="col-xs-12 col-sm-8">
                        <select name="category-dropdown" id="category-input-form" class="custom-select custom-select-sm">
-                        <option value="novalue">Choose Category</option>
                         <% categories.forEach(function(categories) { %>
                         <option value="<%=categories._id %>"><%=categories.name%></option>
                        <% }) %>
@@ -76,7 +74,12 @@
                 <div class="form-group row">
                     <label for="thumbnail" class="col-sm-2 col-form-label text-sm-right required">Upload Thumbnail</label>
                     <div class="col-xs-12 col-sm-8">
-                        <input type="file" class="filepond" name="thumbnail" multiple data-max-file-size="3MB" data-max-files="3">
+                        <input type="file" id="thumbnail-input" name="thumbnail" multiple onchange="previewImages()">
+                        <div id="image-preview">
+                            <% if (article.thumbnail) { %>
+                                <img src="<%= article.thumbnail %>" alt="Thumbnail" style="width: 100px; height: 100px; margin-right: 10px;">
+                            <% } %>
+                        </div>
                     </div>
                 </div>
 
@@ -84,7 +87,7 @@
                     <label for="tags" class="col-sm-2 col-form-label text-sm-right required">Tags</label>
                     <div class="col-xs-12 col-sm-8">
                         <input type="text" id="tags-input-form" name="tags" class="form-control form-control-sm"
-                            value="<%=article.tags%>">
+                               value="<%=article.tags%>" data-tagify>
                     </div>
                 </div>
 

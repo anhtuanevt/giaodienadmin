@@ -1,4 +1,6 @@
 const categoryModel = require('../models/category_model')
+const errorMessage = require('../core/error.reason')
+const errorCode = require('../core/status.code')
 
 module.exports = {
     getCategoryList: async (query) => {
@@ -10,7 +12,9 @@ module.exports = {
     },
 
     getCategoryById :  async (categoryId) => {
-        return await categoryModel.findById(categoryId)
+        const result = await categoryModel.findById(categoryId);
+        if (!result) throw new Error(errorMessage.NOT_FOUND, errorCode.NOT_FOUND);
+        return result;
     },
 
     updateCategoryById :  async (categoryId, data) => {
@@ -22,26 +26,18 @@ module.exports = {
     },
 
     updateMultiStatus :  async (Ids, status) => {
-        try {
-            const result = await categoryModel.updateMany(
-                { _id: { $in: Ids } }, 
-                { $set: { status: status } });
-            return Ids;
-        } catch (error) {
-            throw error;
-        }
+        const result = await categoryModel.updateMany(
+            { _id: { $in: Ids } }, 
+            { $set: { status: status } });
+        return result;
     },
 
     updateSingleStatus :  async (id, status) => {
-        try {
-            let newStatus  = status == 'active' ? 'inactive' : 'active'
-            const result = await categoryModel.findByIdAndUpdate( id,
-                {status: newStatus}, {new: true}
-            );
-            return result
-        } catch (error) {
-            throw error;
-        }
+        let newStatus  = status == 'active' ? 'inactive' : 'active'
+        const result = await categoryModel.findByIdAndUpdate( id,
+            {status: newStatus}, {new: true}
+        );
+        return result
     },
 
     updateOrdering: async (id, newOrdering) => {
@@ -56,12 +52,8 @@ module.exports = {
     },
 
     deleteCategory: async (Ids, status) => {
-        try {
-            const result = await categoryModel.deleteMany(
-                { _id: { $in: Ids } })
-            return result;
-        } catch (error) {
-            throw error;
-        }
+        const result = await categoryModel.deleteMany(
+            { _id: { $in: Ids } })
+        return result;
     },
 }

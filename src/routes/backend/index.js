@@ -8,10 +8,10 @@ router.use((req, res, next) => {
 });
 
 router.use('/',require('./dashboard'))
-router.use('/item',require('./item'))
 router.use('/category',require('./category_router'))
 router.use('/article',require('./article_router'))
 router.use('/contact',require('./contact_router'))
+router.use('/settings',require('./settings_router'))
 
 
 

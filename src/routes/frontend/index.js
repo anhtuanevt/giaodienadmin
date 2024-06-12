@@ -8,7 +8,7 @@ router.use((req, res, next) => {
 
 
 router.use('/' , require('./home'))
-router.use('/category' , require('./category'))
 router.use('/contact' , require('./contact'))
+router.use('/:slug' , require('./category'))
 
 module.exports = router

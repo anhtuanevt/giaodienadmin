@@ -19,6 +19,12 @@ class ValidatorError extends ErrorResponse {
     }
 }
 
+class ValidatorError extends ErrorResponse {
+    constructor(message = reasonError.BAD_REQUEST, status = statusCode.BAD_REQUEST) {
+        super(message, status)
+    }
+}
+
 module.exports = {
     AuthError,
     ValidatorError
