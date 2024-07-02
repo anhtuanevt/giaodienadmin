@@ -37,14 +37,13 @@ const ArticleModel = new Schema({
         type: Number,
         required: true 
     },
-  
+    tags: {
+        type: [String],
+        required: true 
+    },
     category_id: {
         type: Schema.Types.ObjectId,
         ref: 'categories'
-    },
-    tags: {
-        type: String,
-        required: true 
     },
     slug: {
         type: String,

@@ -1,13 +1,18 @@
  <!-- Pagination box -->
  <div class="pagination-box">
     <ul class="pagination-list">
-        <li><a class="active" href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><span>...</span></li>
-        <li><a href="#">9</a></li>
-        <li><a href="#">Next</a></li>
+        <li><a class="active" href="/<%=currentCategoryPage.slug%>">1</a></li>
+        <% if (totalPages >= 5) { %>
+            <li><a href="<%=currentCategoryPage.slug%>/?page=2">2</a></li>
+            <li><a href="<%=currentCategoryPage.slug%>/?page=3">3</a></li>
+            <li><span>...</span></li>
+        <% } %>
+        <% if (currentPage < totalPages) { %>
+            <li><a href="<%=currentCategoryPage.slug%>/?page=<%=currentPage+1%>">Next</a></li>
+        <% } else { %>
+            <li class="disabled"><span>Next</span></li>
+        <% } %>
     </ul>
-    <p>Page 1 of 9</p>
+    <p>Page<%=currentPage%> of <%=totalPages%></p>
 </div>
 <!-- End Pagination box -->

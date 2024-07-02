@@ -1,0 +1,22 @@
+ <!-- grid box -->
+ <div class="grid-box">
+    <div class="image-slider">
+        <ul class="bxslider">
+            <li>
+                <div class="news-post image-post">
+                    <img src="<%= currentCategoryPage.photo %>" alt="">
+                    <div class="hover-box">
+                        <span class="top-stories"><%= currentCategoryPage.name %></span>
+                        <div class="inner-hover">
+                            <h2><a href="single-post.html"> <%= currentCategoryPage.description %> </a></h2>
+                            <ul class="post-tags">
+                                <li><i class="fa fa-clock-o"></i><%= helper.formatDate(currentCategoryPage.createdAt) %></li>
+                                <li><a href="#"><i class="fa fa-comments-o"></i><span><%=articles.length%></span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+        </ul>
+    </div>
+</div>
+<!-- End grid box -->

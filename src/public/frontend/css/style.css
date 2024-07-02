@@ -137,7 +137,7 @@ header.active {
 }
 .navbar-default .nav-list-container {
   width: 100%;
-  max-width: 1260px;
+  /* max-width: 1260px; */
   margin: 0 auto;
   border-bottom: 2px solid #aa35d6;
   transition: all 0.2s ease-in-out;

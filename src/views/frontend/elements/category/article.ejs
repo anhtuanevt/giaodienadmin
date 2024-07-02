@@ -2,178 +2,31 @@
 <div class="article-box">
 
     <div class="news-post article-post">
+        <!-- 300x228 -->
+        <% articles.forEach(article => { %>
         <div class="row">
             <div class="col-sm-6">
                 <div class="post-gallery">
-                    <img alt="" src="frontend/upload/news-posts/art6.jpg">
+                    <img alt="" src="<%=helper.transformPhoto(article.thumbnail, 300, 228)%>">
                     <div class="hover-box">
-                        <a href="single-post.html"><i class="fa fa-link"></i></a>
+                        <a href="/<%=article._id%>"><i class="fa fa-link"></i></a>
                     </div>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="post-content">
-                    <a class="category-post" href="fashion.html">fashion</a>
-                    <h2><a href="single-post.html">Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</a></h2>
+                    <a class="category-post" href="/<%=article.category_id.slug%>"><%=article.category_id.name%></a>
+                    <h2><a href="/<%=article._id%>"><%=article.title%></a></h2>
                     <ul class="post-tags">
-                        <li><i class="fa fa-clock-o"></i>27 may 2013</li>
-                        <li><i class="fa fa-user"></i>by <a href="#">John Doe</a></li>
+                        <li><i class="fa fa-clock-o"></i><%=helper.formatDate(article.createdAt)%></li>
+                        <li><i class="fa fa-user"></i>by <a href="#"><%=article.author%></a></li>
                         <li><a href="#"><i class="fa fa-comments-o"></i><span>23</span></a></li>
                         <li><i class="fa fa-eye"></i>872</li>
                     </ul>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="news-post article-post">
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="post-gallery">
-                    <img alt="" src="frontend/upload/news-posts/art7.jpg">
-                    <div class="hover-box">
-                        <a href="single-post.html"><i class="fa fa-link"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="post-content">
-                    <a class="category-post" href="beauty.html">beauty</a>
-                    <h2><a href="single-post.html">Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</a></h2>
-                    <ul class="post-tags">
-                        <li><i class="fa fa-clock-o"></i>27 may 2013</li>
-                        <li><i class="fa fa-user"></i>by <a href="#">John Doe</a></li>
-                        <li><a href="#"><i class="fa fa-comments-o"></i><span>23</span></a></li>
-                        <li><i class="fa fa-eye"></i>872</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="news-post article-post">
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="post-gallery">
-                    <img alt="" src="frontend/upload/news-posts/art8.jpg">
-                    <div class="hover-box">
-                        <a href="single-post.html"><i class="fa fa-link"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="post-content">
-                    <a class="category-post" href="hair.html">hair</a>
-                    <h2><a href="single-post.html">Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</a></h2>
-                    <ul class="post-tags">
-                        <li><i class="fa fa-clock-o"></i>27 may 2013</li>
-                        <li><i class="fa fa-user"></i>by <a href="#">John Doe</a></li>
-                        <li><a href="#"><i class="fa fa-comments-o"></i><span>23</span></a></li>
-                        <li><i class="fa fa-eye"></i>872</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="news-post article-post">
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="post-gallery">
-                    <img alt="" src="frontend/upload/news-posts/art9.jpg">
-                    <div class="hover-box">
-                        <a href="single-post.html"><i class="fa fa-link"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="post-content">
-                    <a class="category-post" href="food.html">food &amp; Health</a>
-                    <h2><a href="single-post.html">Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</a></h2>
-                    <ul class="post-tags">
-                        <li><i class="fa fa-clock-o"></i>27 may 2013</li>
-                        <li><i class="fa fa-user"></i>by <a href="#">John Doe</a></li>
-                        <li><a href="#"><i class="fa fa-comments-o"></i><span>23</span></a></li>
-                        <li><i class="fa fa-eye"></i>872</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="news-post article-post">
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="post-gallery">
-                    <img alt="" src="frontend/upload/news-posts/art10.jpg">
-                    <div class="hover-box">
-                        <a href="single-post.html"><i class="fa fa-link"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="post-content">
-                    <a class="category-post" href="beauty.html">beauty</a>
-                    <h2><a href="single-post.html">Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</a></h2>
-                    <ul class="post-tags">
-                        <li><i class="fa fa-clock-o"></i>27 may 2013</li>
-                        <li><i class="fa fa-user"></i>by <a href="#">John Doe</a></li>
-                        <li><a href="#"><i class="fa fa-comments-o"></i><span>23</span></a></li>
-                        <li><i class="fa fa-eye"></i>872</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="news-post article-post">
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="post-gallery">
-                    <img alt="" src="frontend/upload/news-posts/art11.jpg">
-                    <div class="hover-box">
-                        <a href="single-post.html"><i class="fa fa-link"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="post-content">
-                    <a class="category-post" href="fashion.html">fashion</a>
-                    <h2><a href="single-post.html">Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</a></h2>
-                    <ul class="post-tags">
-                        <li><i class="fa fa-clock-o"></i>27 may 2013</li>
-                        <li><i class="fa fa-user"></i>by <a href="#">John Doe</a></li>
-                        <li><a href="#"><i class="fa fa-comments-o"></i><span>23</span></a></li>
-                        <li><i class="fa fa-eye"></i>872</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="news-post article-post">
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="post-gallery">
-                    <img alt="" src="frontend/upload/news-posts/art12.jpg">
-                    <div class="hover-box">
-                        <a href="single-post.html"><i class="fa fa-link"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="post-content">
-                    <a class="category-post" href="beauty.html">beauty</a>
-                    <h2><a href="single-post.html">Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</a></h2>
-                    <ul class="post-tags">
-                        <li><i class="fa fa-clock-o"></i>27 may 2013</li>
-                        <li><i class="fa fa-user"></i>by <a href="#">John Doe</a></li>
-                        <li><a href="#"><i class="fa fa-comments-o"></i><span>23</span></a></li>
-                        <li><i class="fa fa-eye"></i>872</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        <% }); %>
     </div>
 
 </div>

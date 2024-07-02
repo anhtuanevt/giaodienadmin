@@ -1,40 +1,71 @@
 
 const articleService = require('../services/article_service');
 const linkChangStatus = '/admin/article/update-single-status'
+const categoryModel = require('../models/category_model')
+const tagModel = require('../models/tag_model')
 
 module.exports = {
     getArticle : async(req, res, next) => {
-        const articles = await articleService.getArticleList();
-        res.render('backend/page/article/list', {articles, linkChangStatus})
+        const searchTerm = req.query.keyword
+        const status = req.query.status
+        let articles = res.locals.articles
+        const allArticles = res.locals.articles
+        const active = res.locals.articles.filter(article => article.status === 'active')
+        const inactive = res.locals.articles.filter(article => article.status === 'inactive')
+        const tags = res.locals.tags
+        if(searchTerm){
+            articles = await articleService.searchArticles(searchTerm);
+        }
+        if(status){
+            articles = await articleService.getArticlesByStatus(status);
+        }
+        res.render('backend/page/article/list', {articles, active, inactive, allArticles, linkChangStatus, tags})
     },
 
     getArticleById : async (req , res , next) => {
-        try {
-            const articleId = req.params.id;
-            let article = {
-                status: "active"
-            }
-            const categories = res.locals.categories
-            if (articleId) article = await articleService.getArticleById(articleId);
-            res.render('backend/page/article/form', {article, categories}); 
-        } catch (error) {
-            return error
+        const articleId = req.params.id;
+        const categories = res.locals.categories
+        const tags = res.locals.tags
+        let article = {}
+        let categoryName = ''
+        if (articleId) {
+            const result = await articleService.getArticleById(articleId);
+            article = result.article
+            categoryName = result.categoryName
         }
         
+        res.render('backend/page/article/form', {article, categories,tags, categoryName}); 
     },
 
+    searchArticles: async (req , res , next) => {
+        const searchTerm = req.body.searchTerm;
+        console.log(searchTerm)
+        const articles = await articleService.searchArticles(searchTerm);
+        const tags = res.locals.tags
+        res.render('backend/page/article/list', {articles, linkChangStatus, tags})
+    },
+    
     addArticle : async (req , res , next) => {
         const data = req.body;
+        const tags = res.locals.tags
         const thumbnail = req.file.path
-    try {   
-            const result = await articleService.addArticle(data, thumbnail);
-            if(result._id){
-                req.flash('success', 'Article updated successfully!',false);
-                res.redirect('/admin/article');
-            }
-        } catch (error) {
-            console.log('error', error)
-            res.send(error)
+
+        // parse the tags from the input
+        const inputTags = data.tags
+        const parsedArray = JSON.parse(inputTags);
+        const inputTagsArray = parsedArray.map(item => item.value);
+
+        // concat the tags and remove the duplicates
+        const newTags = [...new Set(inputTagsArray.concat(tags[0].name))].filter(tag => tag !== undefined);
+        
+        await tagModel.findByIdAndUpdate(tags[0]._id, {
+            $set: { name: newTags }
+        });
+
+        const result = await articleService.addArticle(data, thumbnail, newTags);
+        if(result._id){
+            req.flash('success', 'Article updated successfully!',false);
+            res.redirect('/admin/article');
         }
     },
 
@@ -42,33 +73,28 @@ module.exports = {
         const articleId = req.params.id;
         const data = req.body
         const thumbnail = req.file
-        try {
-            const currentArticle = await articleService.getArticleById(articleId)
-            if (currentArticle.category_id !== data.category_id) {
-                await categoryModel.findByIdAndUpdate(data.category_id, {
-                    $set: { articles_id: articleId }
-                });
-            }
-            const result = await articleService.updateArticleById(articleId, data, thumbnail, currentArticle.thumbnail);
-            if(result) res.redirect('/admin/article')
-        } catch (error) {
-            console.log('error', error) 
-            res.send(error)
-        }
+        const tags = res.locals.tags
+
+        // parse the tags from the input
+        const inputTags = data.tags
+        const parsedArray = JSON.parse(inputTags);
+        const inputTagsArray = parsedArray.map(item => item.value);
+
+        // concat the tags and remove the duplicates
+        const newTags = [...new Set(inputTagsArray.concat(tags[0].name))].filter(tag => tag !== undefined);
+        await tagModel.findByIdAndUpdate(tags[0]._id, {
+            $set: { name: newTags }
+        });
+
+        const currentArticle = await articleService.getArticleById(articleId)
+        const result = await articleService.updateArticleById(articleId, data, thumbnail, currentArticle.thumbnail,newTags);
+        if(result) res.redirect('/admin/article')
     },
 
     deleteArticleById : async (req , res , next) => {
         const articleId = req.params.id;
-        try {
-         const result = await articleService.deleteArticleById(articleId);
-         const currentArticle = await articleService.getArticleById(articleId)
-         await categoryModel.findByIdAndUpdate(currentArticle.categoty_id, {
-            $pull: { articles_id: articleId }
-            })
-         res.redirect('/admin/article')
-        } catch (error) {
-            res.send(error)
-        }
+        await articleService.deleteArticleById(articleId);
+        res.redirect('/admin/article')
     },
 
     updateMultiStatus : async (req , res , next) => {
@@ -95,7 +121,6 @@ module.exports = {
     uploadPhotos : async (req , res , next) => {
         try {
             console.log(req.file.path)
-            return req.file.path;
             if (req.file) {
                 res.status(200).json({
                     key: req.file.filename,
@@ -111,25 +136,12 @@ module.exports = {
     },
 
     deleteArticle : async (req , res , next) => {
-        const Ids= req.body.ids
-        try {
-            const articles = await articleService.find(
-                {'_id': { $in: Ids }}
-            )
-
-            for (const article of articles) {
-                if (article.category_id) {
-                    await categoryModel.findByIdAndUpdate(article.category_id, {
-                        $pull: { articles_id: article._id }
-                    });
-                }
-            }
-            const result = await articleService.deleteArticle(Ids);
-         res.send({
-             result
-         })
-        } catch (error) {
-            res.send(error)
-        }
-    },
+        const data= req.body
+        const ids= data['Ids[]']
+        const result = await articleService.deleteArticle(ids);
+        res.send({
+            success: true,
+            result
+        })
+    }
 }

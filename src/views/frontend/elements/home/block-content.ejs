@@ -7,110 +7,42 @@
         <div class="carousel-box owl-wrapper">
 
             <div class="title-section">
-                <h1><span>Trending</span></h1>
+                <h1><span>Tin Nóng</span></h1>
             </div>
-
             <div class="owl-carousel" data-num="2">
-            
-                <div class="item">
-                    <div class="news-post image-post2">
-                        <div class="post-gallery">
-                            <img src="/frontend/upload/news-posts/im2.jpg" alt="">
-                            <div class="hover-box">
-                                <div class="inner-hover">
-                                    <a class="category-post" href="fashion.html">fashion</a>
-                                    <h2><a href="single-post.html">Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. </a></h2>
-                                    <ul class="post-tags">
-                                        <li><i class="fa fa-clock-o"></i>27 may 2013</li>
-                                        <li><a href="#"><i class="fa fa-comments-o"></i><span>23</span></a></li>
-                                    </ul>
+                <% for (let i = 0; i < categories.length -1 ; i += 2) { %>
+                    <div class="item">
+                        <div class="news-post image-post2">
+                            <div class="post-gallery">
+                                <img src="<%= helper.transformPhoto(categories[i].photo, 368, 300) %>" alt="">
+                                <div class="hover-box">
+                                    <div class="inner-hover">
+                                        <a class="category-post" href="/<%=categories[i].slug%>"><%=categories[i].name%></a>
+                                        <!-- <ul class="post-tags">
+                                            <li><i class="fa fa-clock-o"></i>27 may 2013</li>
+                                            <li><a href="#"><i class="fa fa-comments-o"></i><span>23</span></a></li>
+                                        </ul> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="news-post image-post2">
+                            <div class="post-gallery">
+                                <img src="<%= helper.transformPhoto(categories[i+1].photo, 368, 300) %>" alt="">
+                                <div class="hover-box">
+                                    <div class="inner-hover">
+                                        <a class="category-post food" href="/<%=categories[i+1].slug%>"><%=categories[i+1].name%></a>
+                                        <!-- <ul class="post-tags">
+                                            <li><i class="fa fa-clock-o"></i>27 may 2013</li>
+                                            <li><a href="#"><i class="fa fa-comments-o"></i><span>23</span></a></li>
+                                        </ul> -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="news-post image-post2">
-                        <div class="post-gallery">
-                            <img src="/frontend/upload/news-posts/im3.jpg" alt="">
-                            <div class="hover-box">
-                                <div class="inner-hover">
-                                    <a class="category-post food" href="food.html">Food &amp; Healthy</a>
-                                    <h2><a href="single-post.html">Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. </a></h2>
-                                    <ul class="post-tags">
-                                        <li><i class="fa fa-clock-o"></i>27 may 2013</li>
-                                        <li><a href="#"><i class="fa fa-comments-o"></i><span>23</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="item">
-                    <div class="news-post image-post2">
-                        <div class="post-gallery">
-                            <img src="/frontend/upload/news-posts/im1.jpg" alt="">
-                            <div class="hover-box">
-                                <div class="inner-hover">
-                                    <a class="category-post" href="beauty.html">beaty</a>
-                                    <h2><a href="single-post.html">Donec nec justo eget felis facilisis fermentum. </a></h2>
-                                    <ul class="post-tags">
-                                        <li><i class="fa fa-clock-o"></i>27 may 2013</li>
-                                        <li><a href="#"><i class="fa fa-comments-o"></i><span>23</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="news-post image-post2">
-                        <div class="post-gallery">
-                            <img src="/frontend/upload/news-posts/im4.jpg" alt="">
-                            <div class="hover-box">
-                                <div class="inner-hover">
-                                    <a class="category-post" href="fashion.html">fashion</a>
-                                    <h2><a href="single-post.html">Aenean dignissim pellentesque felis.</a></h2>
-                                    <ul class="post-tags">
-                                        <li><i class="fa fa-clock-o"></i>27 may 2013</li>
-                                        <li><a href="#"><i class="fa fa-comments-o"></i><span>23</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="item">
-                    <div class="news-post image-post2">
-                        <div class="post-gallery">
-                            <img src="/frontend/upload/news-posts/im2.jpg" alt="">
-                            <div class="hover-box">
-                                <div class="inner-hover">
-                                    <a class="category-post food" href="food.html">Food &amp; Healthy</a>
-                                    <h2><a href="single-post.html">Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. </a></h2>
-                                    <ul class="post-tags">
-                                        <li><i class="fa fa-clock-o"></i>27 may 2013</li>
-                                        <li><a href="#"><i class="fa fa-comments-o"></i><span>23</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="news-post image-post2">
-                        <div class="post-gallery">
-                            <img src="/frontend/upload/news-posts/im1.jpg" alt="">
-                            <div class="hover-box">
-                                <div class="inner-hover">
-                                    <a class="category-post" href="beauty.html">beauty</a>
-                                    <h2><a href="single-post.html">Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. </a></h2>
-                                    <ul class="post-tags">
-                                        <li><i class="fa fa-clock-o"></i>27 may 2013</li>
-                                        <li><a href="#"><i class="fa fa-comments-o"></i><span>23</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                <% } %>
+                
             </div>
 
         </div>
@@ -138,80 +70,47 @@
 
             <div class="row">
                 <div class="col-md-6">
-
+                    <% const homeCategory = categories.sort((a, b) => a.ordering - b.ordering) %>    
                     <div class="title-section">
-                        <h1><span>Beauty</span></h1>
+                        <h1><span><%=homeCategory[0].name%></span></h1>
                     </div>
-
                     <ul class="list-posts">
+                        <% const homeArticles1 = articles.filter(article => article.category_id._id == `${homeCategory[0]._id}`) %>
+                        <% homeArticles1.slice(0, 3).forEach(article => { %>
                         <li>
-                            <img src="/frontend/upload/news-posts/list1.jpg" alt="">
+                            <!-- 100x80 -->
+                            <img src="<%= helper.transformPhoto(article.thumbnail, 100, 80) %>" alt="">
                             <div class="post-content">
-                                <h2><a href="single-post.html">Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. </a></h2>
+                                <h2><a href="/<%= article.slug %>"><%= article.title %></a></h2>
                                 <ul class="post-tags">
-                                    <li><i class="fa fa-clock-o"></i>27 may 2013</li>
+                                    <li><i class="fa fa-clock-o"></i><%= helper.formatDate(article.createdAt) %></li>
                                 </ul>
                             </div>
                         </li>
-
-                        <li>
-                            <img src="/frontend/upload/news-posts/list2.jpg" alt="">
-                            <div class="post-content">
-                                <h2><a href="single-post.html">Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. </a></h2>
-                                <ul class="post-tags">
-                                    <li><i class="fa fa-clock-o"></i>27 may 2013</li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li>
-                            <img src="/frontend/upload/news-posts/list3.jpg" alt="">
-                            <div class="post-content">
-                                <h2><a href="single-post.html">Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. </a></h2>
-                                <ul class="post-tags">
-                                    <li><i class="fa fa-clock-o"></i>27 may 2013</li>
-                                </ul>
-                            </div>
-                        </li>
+                        <% }) %>
                     </ul>
                 </div>
 
                 <div class="col-md-6">
 
                     <div class="title-section">
-                        <h1><span>Fashion</span></h1>
+                        <h1><span><%=homeCategory[1].name%></span></h1>
                     </div>
 
                     <ul class="list-posts">
+                        <% const homeArticles2 = articles.filter(article => article.category_id._id == `${homeCategory[1]._id}`) %>
+                        <% homeArticles2.slice(0, 3).forEach(article => { %>
                         <li>
-                            <img src="/frontend/upload/news-posts/list4.jpg" alt="">
+                            <!-- 100x80 -->
+                            <img src="<%= helper.transformPhoto(article.thumbnail, 100, 80) %>" alt="">
                             <div class="post-content">
-                                <h2><a href="single-post.html">Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. </a></h2>
+                                <h2><a href="/<%= article.slug %>"><%= article.title %></a></h2>
                                 <ul class="post-tags">
-                                    <li><i class="fa fa-clock-o"></i>27 may 2013</li>
+                                    <li><i class="fa fa-clock-o"></i><%= helper.formatDate(article.createdAt) %></li>
                                 </ul>
                             </div>
                         </li>
-
-                        <li>
-                            <img src="/frontend/upload/news-posts/list5.jpg" alt="">
-                            <div class="post-content">
-                                <h2><a href="single-post.html">Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. </a></h2>
-                                <ul class="post-tags">
-                                    <li><i class="fa fa-clock-o"></i>27 may 2013</li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <li>
-                            <img src="/frontend/upload/news-posts/list6.jpg" alt="">
-                            <div class="post-content">
-                                <h2><a href="single-post.html">Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. </a></h2>
-                                <ul class="post-tags">
-                                    <li><i class="fa fa-clock-o"></i>27 may 2013</li>
-                                </ul>
-                            </div>
-                        </li>
+                        <% }) %>
                     </ul>
                 </div>
 
@@ -223,28 +122,27 @@
         <!-- article box -->
         <div class="article-box">
             <div class="title-section">
-                <h1><span>Latest Articles</span></h1>
+                <h1><span>Tất cả bài viết</span></h1>
             </div>
-
             <div class="news-post article-post">
+                <!-- 330x228 -->
+                <a href="/article/<%= articles[0].slug %>"><i class="fa fa-link"></i></a>
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="post-gallery">
-                            <img alt="" src="/frontend/upload/news-posts/art1.jpg">
+                            <img alt="" src="<%= helper.transformPhoto(articles[0].thumbnail, 330, 228) %>">
                             <div class="hover-box">
-                                <a href="single-post.html"><i class="fa fa-link"></i></a>
+                                <a href="/article/<%= articles[0].slug %>"><i class="fa fa-link"></i></a>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="post-content">
-                            <a class="category-post" href="beauty.html">beauty</a>
-                            <h2><a href="single-post.html">Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</a></h2>
+                            <a class="category-post" href="/category/<%= articles[0].category_id.slug %>"><%= articles[0].category_id.name %></a>
+                            <h2><a href="/article/<%= articles[0].slug %>"><%= articles[0].title %></a></h2>
                             <ul class="post-tags">
-                                <li><i class="fa fa-clock-o"></i>27 may 2013</li>
-                                <li><i class="fa fa-user"></i>by <a href="#">John Doe</a></li>
-                                <li><a href="#"><i class="fa fa-comments-o"></i><span>23</span></a></li>
-                                <li><i class="fa fa-eye"></i>872</li>
+                                <li><i class="fa fa-clock-o"></i><%= articles[0].createdAt.toLocaleDateString('vi-VN') %></li>
+                                <li><i class="fa fa-user"></i>by <a href="#"><%= articles[0].author %></a></li>
                             </ul>
                             <span class="post-rating">
                                 <i class="fa fa-star"></i>
@@ -256,123 +154,54 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="news-post article-post">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="post-content">
-                            <a class="category-post" href="fashion.html">fashion</a>
-                            <h2><a href="single-post.html">Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</a></h2>
-                            <ul class="post-tags">
-                                <li><i class="fa fa-clock-o"></i>27 may 2013</li>
-                                <li><i class="fa fa-user"></i>by <a href="#">John Doe</a></li>
-                                <li><a href="#"><i class="fa fa-comments-o"></i><span>23</span></a></li>
-                                <li><i class="fa fa-eye"></i>872</li>
-                            </ul>
-                            <span class="post-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="post-gallery">
-                            <img alt="" src="/frontend/upload/news-posts/art2.jpg">
-                            <div class="hover-box">
-                                <a href="single-post.html"><i class="fa fa-link"></i></a>
-                            </div>
-                        </div>
+                <!-- item2 -->
+                <div class="col-sm-6">
+                    <div class="post-content">
+                        <a class="category-post" href="/category/<%= articles[1].category_id.slug %>"><%= articles[1].category_id.name %></a>
+                        <h2><a href="/article/<%= articles[1].slug %>"><%= articles[1].title %></a></h2>
+                        <ul class="post-tags">
+                            <li><i class="fa fa-clock-o"></i><%= articles[1].createdAt.toLocaleDateString('vi-VN') %></li>
+                            <li><i class="fa fa-user"></i>by <a href="#"><%= articles[1].author %></a></li>
+                        </ul>
+                        <span class="post-rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </span>
                     </div>
                 </div>
-            </div>
-
-            <div class="news-post article-post">
+                <a href="/article/<%= articles[1].slug %>"><i class="fa fa-link"></i></a>
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="post-gallery">
-                            <img alt="" src="/frontend/upload/news-posts/art3.jpg">
+                            <img alt="" src="<%= helper.transformPhoto(articles[1].thumbnail, 330, 228) %>">
                             <div class="hover-box">
-                                <a href="single-post.html"><i class="fa fa-link"></i></a>
+                                <a href="/article/<%= articles[1].slug %>"><i class="fa fa-link"></i></a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="post-content">
-                            <a class="category-post" href="beauty.html">beauty</a>
-                            <h2><a href="single-post.html">Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</a></h2>
-                            <ul class="post-tags">
-                                <li><i class="fa fa-clock-o"></i>27 may 2013</li>
-                                <li><i class="fa fa-user"></i>by <a href="#">John Doe</a></li>
-                                <li><a href="#"><i class="fa fa-comments-o"></i><span>23</span></a></li>
-                                <li><i class="fa fa-eye"></i>872</li>
-                            </ul>
-                            <span class="post-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </span>
-                        </div>
-                    </div>
+                    
                 </div>
-            </div>
-
-            <div class="news-post article-post">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="post-content">
-                            <a class="category-post" href="hair.html">hair</a>
-                            <h2><a href="single-post.html">Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</a></h2>
-                            <ul class="post-tags">
-                                <li><i class="fa fa-clock-o"></i>27 may 2013</li>
-                                <li><i class="fa fa-user"></i>by <a href="#">John Doe</a></li>
-                                <li><a href="#"><i class="fa fa-comments-o"></i><span>23</span></a></li>
-                                <li><i class="fa fa-eye"></i>872</li>
-                            </ul>
-                            <span class="post-rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="post-gallery">
-                            <img alt="" src="/frontend/upload/news-posts/art4.jpg">
-                            <div class="hover-box">
-                                <a href="single-post.html"><i class="fa fa-link"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="news-post article-post">
+                <!-- item3 -->
+                <a href="/article/<%= articles[2].slug %>"><i class="fa fa-link"></i></a>
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="post-gallery">
-                            <img alt="" src="/frontend/upload/news-posts/art5.jpg">
+                            <img alt="" src="<%= helper.transformPhoto(articles[2].thumbnail, 330, 228) %>">
                             <div class="hover-box">
-                                <a href="single-post.html"><i class="fa fa-link"></i></a>
+                                <a href="/article/<%= articles[2].slug %>"><i class="fa fa-link"></i></a>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="post-content">
-                            <a class="category-post" href="food.html">food &amp; Health</a>
-                            <h2><a href="single-post.html">Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.</a></h2>
+                            <a class="category-post" href="/category/<%= articles[2].category_id.slug %>"><%= articles[2].category_id.name %></a>
+                            <h2><a href="/article/<%= articles[2].slug %>"><%= articles[2].title %></a></h2>
                             <ul class="post-tags">
-                                <li><i class="fa fa-clock-o"></i>27 may 2013</li>
-                                <li><i class="fa fa-user"></i>by <a href="#">John Doe</a></li>
-                                <li><a href="#"><i class="fa fa-comments-o"></i><span>23</span></a></li>
-                                <li><i class="fa fa-eye"></i>872</li>
+                                <li><i class="fa fa-clock-o"></i><%= articles[2].createdAt.toLocaleDateString('vi-VN') %></li>
+                                <li><i class="fa fa-user"></i>by <a href="#"><%= articles[2].author %></a></li>
                             </ul>
                             <span class="post-rating">
                                 <i class="fa fa-star"></i>
@@ -384,22 +213,59 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
+                <!-- item4 -->
+                <div class="col-sm-6">
+                    <div class="post-content">
+                        <a class="category-post" href="/category/<%= articles[3].category_id.slug %>"><%= articles[3].category_id.name %></a>
+                        <h2><a href="/article/<%= articles[3].slug %>"><%= articles[3].title %></a></h2>
+                        <ul class="post-tags">
+                            <li><i class="fa fa-clock-o"></i><%= articles[3].createdAt.toLocaleDateString('vi-VN') %></li>
+                            <li><i class="fa fa-user"></i>by <a href="#"><%= articles[3].author %></a></li>
+                        </ul>
+                        <span class="post-rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <a href="/article/<%= articles[3].slug %>"><i class="fa fa-link"></i></a>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="post-gallery">
+                            <img alt="" src="<%= helper.transformPhoto(articles[3].thumbnail, 330, 228) %>">
+                            <div class="hover-box">
+                                <a href="/article/<%= articles[3].slug %>"><i class="fa fa-link"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
         <!-- End article box -->
 
         <!-- Pagination box -->
         <div class="pagination-box">
             <ul class="pagination-list">
-                <li><a class="active" href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
+                <li><a class="active" href="/">1</a></li>
+                <% if (totalPages >= 5) { %>
+                    <li><a href="/?page=2">2</a></li>
+                    <li><a href="/?page=3">3</a></li>
                 <li><span>...</span></li>
-                <li><a href="#">9</a></li>
-                <li><a href="#">Next</a></li>
+                <% } %>
+                <li><a href="/?page=<%=totalPages%>"><%=totalPages%></a></li>
+                <% if (currentPage < totalPages) { %>
+                    <li><a href="/?page=<%=currentPage+1%>">Next</a></li>
+                <% } else { %>
+                    <li class="disabled"><span>Next</span></li>
+                <% } %>
             </ul>
-            <p>Page 1 of 9</p>
+            <p>Page <%=currentPage%> of <%=totalPages%></p>
         </div>
         <!-- End Pagination box -->
 

@@ -1,12 +1,23 @@
 var express = require('express');
 var router = express.Router();
 const categoryService = require('../services/category_service')
+const tagModel  = require('../models/tag_model')
+const articleService = require('../services/article_service');
+const setting_service = require('../services/setting_service');
 
 router.use(async (req, res, next) => {
     const categories = await categoryService.getCategoryList({})
-    const activeCategories = categories.filter(category => category.status === 'active');
-res.locals.categories = activeCategories;
-next();
+    res.locals.categories = categories;
+
+    const tags = await tagModel.findOne({});
+    res.locals.tags = tags.name
+
+    const articles = await articleService.getArticleList({})
+    res.locals.articles = articles;
+
+    const settings = await setting_service.getSettings();
+    res.locals.settings = settings;
+    next();
 })
 
 router.use('/admin' , require('./backend'))

@@ -64,9 +64,13 @@
                 <div class="form-group row">
                     <label for="category" class="col-sm-2 col-form-label text-sm-right required">Category</label>
                     <div class="col-xs-12 col-sm-8">
-                       <select name="category-dropdown" id="category-input-form" class="custom-select custom-select-sm">
+                       <select name="category_id" id="category-input-form" class="custom-select custom-select-sm">
                         <% categories.forEach(function(categories) { %>
-                        <option value="<%=categories._id %>"><%=categories.name%></option>
+                            <% if(article.category_id === categories._id) { %>
+                                <option value="<%=article.category_id %>" selected><%=categories.name%></option>
+                            <% } else { %>
+                                <option value="<%=categories._id %>"><%=categories.name%></option>
+                            <% } %>
                        <% }) %>
                        </select> 
                     </div>
@@ -74,8 +78,8 @@
                 <div class="form-group row">
                     <label for="thumbnail" class="col-sm-2 col-form-label text-sm-right required">Upload Thumbnail</label>
                     <div class="col-xs-12 col-sm-8">
-                        <input type="file" id="thumbnail-input" name="thumbnail" multiple onchange="previewImages()">
-                        <div id="image-preview">
+                        <input type="file" id="thumbnail-input" class="photo-input" name="thumbnail" multiple onchange="previewImages('#photo-preview', '#thumbnail-input')">
+                        <div id="thumbnail-preview">
                             <% if (article.thumbnail) { %>
                                 <img src="<%= article.thumbnail %>" alt="Thumbnail" style="width: 100px; height: 100px; margin-right: 10px;">
                             <% } %>
@@ -86,8 +90,7 @@
                 <div class="form-group row">
                     <label for="tags" class="col-sm-2 col-form-label text-sm-right required">Tags</label>
                     <div class="col-xs-12 col-sm-8">
-                        <input type="text" id="tags-input-form" name="tags" class="form-control form-control-sm"
-                               value="<%=article.tags%>" data-tagify>
+                        <input data-tags="<%=tags%>" name='tags' class='tagify--custom-dropdown form-control' value="<%=article.tags%>" >
                     </div>
                 </div>
 
@@ -109,3 +112,5 @@
         </form>
 
     </div>
+
+    

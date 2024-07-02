@@ -4,67 +4,29 @@
     <div class="sidebar small-sidebar">
 
         <div class="widget review-widget">
-            <h1>Top Reviews</h1>
+            <h1 style="font-size: 13px;">Đọc nhiều nhất</h1>
             <ul class="review-posts-list">
                 <li>
-                    <img src="/frontend/upload/news-posts/rev1.jpg" alt="">
-                    <h2><a href="single-post.html">Donec nec justo eget felis facilisis fermentum.</a></h2>
-                    <span class="date"><i class="fa fa-clock-o"></i>27 may 2013</span>
-                    <span class="post-rating">
+                    <!-- 170x80 -->
+                    <% popularArticles.slice(0, 6).forEach(article => { %>
+                        <% 
+                            const transformedThumbnail = helper.transformPhoto(article.thumbnail, 170, 80);
+                            const formattedDate = helper.formatDate(article.createdAt);
+                            const truncatedTitle = article.title.length > 40
+                            ? article.title.substring(0, 40) + '...' 
+                            : article.title;
+                            %>
+                        <img src="<%= transformedThumbnail %>" alt="">
+                        <h2><a href="/<%= article._id %>"><%= truncatedTitle %></a></h2>
+                        <span class="date"><i class="fa fa-clock-o"></i><%= formattedDate %></span>
+                        <span class="post-rating">
                         <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                    </span>
-                </li>
-                <li>
-                    <img src="/frontend/upload/news-posts/rev2.jpg" alt="">
-                    <h2><a href="single-post.html">Donec nec justo eget felis facilisis fermentum.</a></h2>
-                    <span class="date"><i class="fa fa-clock-o"></i>27 may 2013</span>
-                    <span class="post-rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                    </span>
-                </li>
-                <li>
-                    <img src="/frontend/upload/news-posts/rev3.jpg" alt="">
-                    <h2><a href="single-post.html">Donec nec justo eget felis facilisis fermentum.</a></h2>
-                    <span class="date"><i class="fa fa-clock-o"></i>27 may 2013</span>
-                    <span class="post-rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                        <i class="fa fa-star-o"></i>
-                    </span>
-                </li>
-                <li>
-                    <img src="/frontend/upload/news-posts/rev4.jpg" alt="">
-                    <h2><a href="single-post.html">Donec nec justo eget felis facilisis fermentum.</a></h2>
-                    <span class="date"><i class="fa fa-clock-o"></i>27 may 2013</span>
-                    <span class="post-rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-o"></i>
-                    </span>
-                </li>
-                <li>
-                    <img src="/frontend/upload/news-posts/rev5.jpg" alt="">
-                    <h2><a href="single-post.html">Donec nec justo eget felis facilisis fermentum.</a></h2>
-                    <span class="date"><i class="fa fa-clock-o"></i>27 may 2013</span>
-                    <span class="post-rating">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                    </span>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </span>
+                    <% }) %>
                 </li>
             </ul>
         </div>
@@ -78,42 +40,20 @@
 
         <div class="widget categories-widget">
             <div class="title-section">
-                <h1><span>Hot Categories</span></h1>
+                <h1><span>Mục yêu thích</span></h1>
             </div>
             <ul class="category-list">
+                <% categories.forEach(category => { %>
                 <li>
-                    <a href="#">Fashion <span>142</span></a>
-                    <ul class="level2">
+                    <a style="text-transform: uppercase;" href="/<%= category.slug %>"><%= category.name %> <span>12</span></a>
+                    <!-- <ul class="level2">
                         <li><a href="#">Fashion News <span>26</span></a></li>
                         <li><a href="#">Accessories <span>55</span></a></li>
                         <li><a href="#">Collection <span>37</span></a></li>
                         <li><a href="#">Street Style <span>62</span></a></li>
-                    </ul>
+                    </ul> -->
                 </li>
-                <li>
-                    <a href="#">Beaty <span>26</span></a>
-                    <ul class="level2">
-                        <li><a href="#">Beaty Ideas <span>43</span></a></li>
-                        <li><a href="#">Hair <span>74</span></a></li>
-                        <li><a href="#">Makeup <span>11</span></a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">People <span>26</span></a>
-                    <ul class="level2">
-                        <li><a href="#">Celebrity News <span>79</span></a></li>
-                        <li><a href="#">Decorating <span>55</span></a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">Food &amp; Health <span>55</span></a>
-                </li>
-                <li>
-                    <a href="#">Career <span>37</span></a>
-                </li>
-                <li>
-                    <a href="#">Weddings <span>62</span></a>
-                </li>
+                <% }) %>
             </ul>
         </div>
 

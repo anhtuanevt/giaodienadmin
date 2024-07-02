@@ -9,7 +9,6 @@ const submitContact = (event, id) => {
     event.preventDefault()
     const data = $('#contact-form').serialize();
     const method = id ? "PUT" : "POST";
-    console.log(data, 'data')
     $.ajax({
         type: method,
         url: `/admin/contact/form/${id}`,
@@ -53,10 +52,10 @@ const changeStatus = (url, id, status) => {
     }
  }
  
- const previewImages = () => {
-    var preview = document.getElementById('image-preview');
-    preview.innerHTML = ''; 
-    var files = document.getElementById('thumbnail-input').files;
+ const previewImages = (previewId, inputId, width = '100px', height = '100px') => {
+    let preview = $(previewId)
+    preview.html('');
+    let files = $(inputId).prop('files');
 
     if (files) {
         Array.from(files).forEach(file => {
@@ -64,15 +63,16 @@ const changeStatus = (url, id, status) => {
             reader.onload = function(e) {
                 var img = document.createElement('img');
                 img.src = e.target.result;
-                img.style.width = '100px'; 
-                img.style.height = '100px'; 
+                img.style.width = width; 
+                img.style.height = height; 
                 img.style.marginRight = '10px';
-                preview.appendChild(img);
+                preview.append(img); 
             };
             reader.readAsDataURL(file);
         });
     }
 }
+
 
 const confirmDelete = (url) => {
     Swal.fire({
@@ -117,49 +117,198 @@ const changeStatusAll = (status, link) => {
     $.post(linkChangStatus, data,
         function (data, textStatus, jqXHR) {
             if(data.success){
-                console.log(data)
               window.location.href = link
             }
         },
         "json"
     );
-    console.log(data)
 }
 
 
 // deleteMulti
 const deleteMulti = (link) => {
-    console.log(link)
-    let Ids = getDataId()
-    console.log(typeof(Ids))
-    const data = {Ids}
-    console.log(Ids)
-    $.ajax({
-        type: "delete",
-        url: link,
-        data: data,
-        
-        dataType: "json",
-        success: function (response) {
-            console.log(response)
-            if(response.success){
-                // window.location.href = link
-            }
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you really want to delete this item?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let Ids = getDataId()
+            const data = {Ids}
+            $.ajax({
+                type: "delete",
+                url: link,
+                data: data,
+                dataType: "json",
+                success: function (response) {
+                    if(response.success){
+                        window.location.href = link
+                    }
+                }
+            });
         }
     });
 }
 
+const searchItems = () => {
+    $.get("/admin/article/", data,
+        function (data, textStatus, jqXHR) {
+            
+        },
+        "json"
+    );
+}
+
+
+const highlight = () => {
+    var inputTexts = document.getElementsByClassName("inputText");
+    var text = document.getElementById("highlighter").value;
+  
+    Array.from(inputTexts).forEach(inputText => {
+        var innerHTML = inputText.innerHTML.replaceAll(/<span class="highlight">(.*?)<\/span>/gi, "$1");
+        if (text !== "") {
+            innerHTML = innerHTML.replaceAll(text, '<span class="highlight">' + text + "</span>");
+        }
+
+        inputText.innerHTML = innerHTML;
+    });
+}
+
+// upload photo
+const updateSettings = () => {
+    const formData = new FormData();
+    formData.append("logo", $('#logo')[0].files[0]);
+    formData.append("banner1", $('#banner1')[0].files[0]);
+    formData.append("banner2", $('#banner2')[0].files[0]);
+    formData.append("banner3", $('#banner3')[0].files[0]);
+
+    $.ajax({
+        url: `${settingsUrl}/upload-photo`,
+        type: 'POST',
+        data: formData,
+        processData: false, 
+        contentType: false, 
+        success: function (data, textStatus, jqXHR) {
+            updateSettingsHandle(data)
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error('Upload failed:', textStatus, errorThrown);
+        }
+    });
+}
+
+const updateSettingsHandle = (photoData) => {
+
+    const facebook_url = $('#facebook').val()
+    const instagram_url = $('#instagram').val()
+    const twitter_url = $('#twitter').val()
+
+    const logo = photoData.logo ?? $('#logo-preview img').attr('src');
+    const site_name = $('#site_name').val()
+    const about = $('#about').val()
+    const contact = $('#contact').val()
+
+    const senderName = $('#senderName').val()
+    const senderEmail = $('#senderEmail').val()
+    const subject = $('#templateSubject').val()
+    const body = $('#templateBody').val()
+
+    const banner1 = photoData.banner1 ?? $('#banner1-preview img').attr('src')
+    const banner2 = photoData.banner2 ?? $('#banner2-preview img').attr('src')
+    const banner3 = photoData.banner3 ?? $('#banner3-preview img').attr('src')
+
+    const data = {
+        "social_settings": {
+            "facebook_url": facebook_url,
+            "instagram_url": instagram_url,
+            "twitter_url": twitter_url
+        },
+        "email_settings": {
+            "senderName": senderName,
+            "senderEmail": senderEmail,
+            "subject": subject,
+            "body": body
+        },
+        "general_info": {
+            "logo": photoData.logo ?? logo,
+            "site_name": site_name,
+            "about": about,
+            "contact": contact
+        },
+        "ads": {
+            "banner1": photoData.banner1 ?? banner1,
+            "banner2": photoData.banner2 ?? banner2,
+            "banner3": photoData.banner3 ?? banner3
+        }
+    }
+
+    const options = {
+        method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data) 
+    };
+    
+    fetch(`${settingsUrl}`, options)
+        .then(response => response.json())
+        .then(data => {
+            if(data.success){
+               alertify.success('Update settings success')
+            }else{
+                alertify.error('Update settings failed')
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error); 
+        });
+    
+}
 
 $(document).ready(function () { 
-    // tagify
-    let input = $('input[name="tags"][data-tagify]');
-    let tagify = new Tagify(input[0]);
+     // active menu
+     activeMenuOnClick('#category', categoryUrl);
+     activeMenuOnClick('#article', articleUrl);
+     activeMenuOnClick('#contact', contactUrl);
+     activeMenuOnClick('#settings', settingsUrl);
 
-    // active menu
-    activeMenuOnClick('#category', categoryUrl);
-    activeMenuOnClick('#article', articleUrl);
-    activeMenuOnClick('#contact', contactUrl);
-    activeMenuOnClick('#settings', settingsUrl);
+    //preview image
+    $('#thumbnail-input').on('change', function() {
+        previewImages('#thumbnail-preview', '#thumbnail-input');
+    });
+    $('#logo').on('change', function() {
+        previewImages('#logo-preview', '#logo');
+    });
+    $('#banner1').on('change', function() {
+        previewImages('#banner1-preview', '#banner1', '300px', '100px');
+    });
+    $('#banner2').on('change', function() {
+        previewImages('#banner2-preview', '#banner2', '300px', '100px');
+    });
+    $('#banner3').on('change', function() {
+        previewImages('#banner3-preview', '#banner3', '300px', '100px');
+    });
+
+    // tagify
+    var input = document.querySelector('input[name="tags"]')
+    if(input){
+        const tags = input.getAttribute('data-tags')
+        const tagsArray = tags.split(',');
+        tagify = new Tagify(input, {
+            whitelist: tagsArray,
+            maxTags: 10,
+            dropdown: {
+                maxItems: 20,           
+                classname: 'tags-look', 
+                enabled: 0,            
+                closeOnSelect: false    
+            }
+        })
+    }
     
     if ($('#description').length) {
         CKEDITOR.replace('description');
@@ -185,95 +334,53 @@ $(document).ready(function () {
 
 // search handle
 
-// function highlightText(node, keyword) {
-//     if (node.nodeType === 3) { // Text node
-//         const regex = new RegExp(`(${keyword})`, 'gi');
-//         const newHtml = node.nodeValue.replace(regex, '<span class="highlight1">$1</span>');
-//         $(node).replaceWith(newHtml);
-//     } else {
-//         $(node).contents().each(function() {
-//             highlightText(this, keyword);
-//         });
-//     }
-// }
 
-// function clearHighlights(node) {
-//     $(node).find('span.highlight').each(function() {
-//         $(this).replaceWith($(this).text());
-//     });
-// }
-
-// $('#keyword').on('input', function() {
-//     const keyword = $(this).val().trim();
-//     $('td.text-center span').each(function() {
-//         clearHighlights(this);
-//         if (keyword !== '') {
-//             highlightText(this, keyword);
-//         }
-//     });
-// });
 
 $('#btn-clear').on('click', function(event) {
     event.preventDefault();
     $('#keyword').val('');
-    $('td.text-center span').each(function() {
-        clearHighlights(this);
-    });
+    // $('td.text-center span').each(function() {
+    //     clearHighlights(this);
+    // });
 });
 
 
 // save email settings
-$('#saveEmailSettings').click(function() {
-    var senderName = $('#senderName').val();
-    var senderEmail = $('#senderEmail').val();
-    var subject = $('#templateSubject').val();
-    var message = $('#templateBody').val();
+    $('#saveEmailSettings').click(function() {
+        var senderName = $('#senderName').val();
+        var senderEmail = $('#senderEmail').val();
+        var subject = $('#templateSubject').val();
+        var message = $('#templateBody').val();
 
-    $.ajax({
-        url: '/admin/settings/email-settings', 
-        type: 'PUT',
-        contentType: 'application/json',
-        data: JSON.stringify({
-            senderName: senderName,
-            senderEmail: senderEmail,
-            subject: subject,
-            message: message
-        }),
-        success: function(response) {
-            alertify.confirm('Success', 'Email settings updated successfully!',
-            function() {
-                window.location.href = '/admin'; 
+        $.ajax({
+            url: `${settingsUrl}/email-settings`, 
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                senderName: senderName,
+                senderEmail: senderEmail,
+                subject: subject,
+                message: message
+            }),
+            success: function(response) {
+                alertify.confirm('Success', 'Email settings updated successfully!',
+                function() {
+                    window.location.href = '/admin'; 
+                },
+                function() {
+                    alertify.closeAll(); 
+                }).set('labels', {ok:'OK', cancel:'Cancel'});
             },
-            function() {
-                alertify.closeAll(); 
-            }).set('labels', {ok:'OK', cancel:'Cancel'});
-        },
-        error: function(xhr, status, error) {
-            alertify.error('Error updating email settings: ' + error);
-        }
+            error: function(xhr, status, error) {
+                alertify.error('Error updating email settings: ' + error);
+            }
+        });
     });
-});
 
 })  
 
 
 
-
-
-// const deleteItem = (id) => {
-//     const data = { ids: [id] };
-//     $.ajax({
-//         type: "DELETE",
-//         url: "/admin/category",
-//         data: JSON.stringify(data),
-//         dataType: "json",
-//         success: function (response) {
-//             if(response.success){
-//                 console.log(response,data)
-//             }
-//         },
-//     });
-// } 
 
 // Turn input element into a pond
     //  FilePond.registerPlugin(FilePondPluginImagePreview);

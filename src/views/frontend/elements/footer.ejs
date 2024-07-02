@@ -2,35 +2,28 @@
     <div class="container">
         <div class="footer-widgets-part">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="widget text-widget">
-                        <h1>About</h1>
-                        <p>Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.
-                            Aenean dignissim pellentesque felis. Morbi in sem quis dui placerat ornare. Pellentesque
-                            odio nisi, euismod in, pharetra a, ultricies in, diam.</p>
+                        <h1>Về Chúng tôi</h1>
+                        <p><%=settings.general_info.about%></p>
                         <a href="/"><img src="/frontend/images/footer-logo.png" alt=""></a>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="widget tags-widget">
-                        <h1>Popular Tags</h1>
+                        <h1>Phổ biến</h1>
                         <ul class="tag-list">
-                            <li><a href="#">News</a></li>
-                            <li><a href="#">Fashion</a></li>
-                            <li><a href="#">Politics</a></li>
-                            <li><a href="#">Sport</a></li>
-                            <li><a href="#">Videos</a></li>
-                            <li><a href="#">Business</a></li>
-                            <li><a href="#">Food</a></li>
-                            <li><a href="#">Travel</a></li>
-                            <li><a href="#">World</a></li>
-                            <li><a href="#">Music</a></li>
+                            <ul class="tag-list">
+                                <% tags.forEach(tag => { %>
+                                <li><a href="#"><%= tag %></a></li>
+                                <% }) %>
+                            </ul>
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <!-- <div class="col-md-3">
                     <div class="widget posts-widget">
-                        <h1>Random Post</h1>
+                        <h1>Có thể bạn quan tâm</h1>
                         <ul class="list-posts">
                             <li>
                                 <img src="/frontend/upload/news-posts/listw4.jpg" alt="">
@@ -73,7 +66,7 @@
                     <div class="widget flickr-widget">
                         <h1>Flickr Photos</h1>
                         <ul class="flickr-list">
-                            <li><a href="#"><img src="/frontend/upload/flickr/1.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="https://flic.kr/p/29BThUT" alt=""></a></li>
                             <li><a href="#"><img src="/frontend/upload/flickr/2.jpg" alt=""></a></li>
                             <li><a href="#"><img src="/frontend/upload/flickr/3.jpg" alt=""></a></li>
                             <li><a href="#"><img src="/frontend/upload/flickr/4.jpg" alt=""></a></li>
@@ -82,7 +75,7 @@
                         </ul>
                         <a href="#">View more photos...</a>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="footer-last-line">

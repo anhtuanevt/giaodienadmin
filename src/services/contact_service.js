@@ -21,47 +21,8 @@ module.exports = {
         return await ContactModel.findByIdAndDelete(contactId)
     },
 
-    // updateMultiStatus :  async (Ids, status) => {
-    //     try {
-    //         const result = await categoryModel.updateMany(
-    //             { _id: { $in: Ids } }, 
-    //             { $set: { status: status } });
-    //         return Ids;
-    //     } catch (error) {
-    //         throw error;
-    //     }
-    // },
+    deleteContact : async (ids) => {
+        return await ContactModel.deleteMany({ _id: { $in: ids } })
+    },
 
-    // updateSingleStatus :  async (id, status) => {
-    //     try {
-    //         let newStatus  = status == 'active' ? 'inactive' : 'active'
-    //         const result = await categoryModel.findByIdAndUpdate( id,
-    //             {status: newStatus}, {new: true}
-    //         );
-    //         return result
-    //     } catch (error) {
-    //         throw error;
-    //     }
-    // },
-
-    // updateOrdering: async (id, newOrdering) => {
-    //     try {
-    //         const result = await categoryModel.findByIdAndUpdate( id,
-    //             {ordering: newOrdering}, {new: true}
-    //         );
-    //         return result
-    //     } catch (error) {
-    //         throw error;
-    //     }
-    // },
-
-    // deleteCategory: async (Ids, status) => {
-    //     try {
-    //         const result = await categoryModel.deleteMany(
-    //             { _id: { $in: Ids } })
-    //         return result;
-    //     } catch (error) {
-    //         throw error;
-    //     }
-    // },
 }

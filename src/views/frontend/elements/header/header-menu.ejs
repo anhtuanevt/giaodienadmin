@@ -16,18 +16,16 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-            <form class="navbar-form navbar-right" role="search">
-                <input type="text" id="search" name="search" placeholder="Search here">
+            <!-- <form class="navbar-form navbar-right" role="search">
+                <input type="text" id="search" name="search" placeholder="Tìm kiếm ...">
                 <button type="submit" id="search-submit"><i class="fa fa-search"></i></button>
-            </form>
+            </form> -->
 
             <ul class="nav navbar-nav navbar-right">
 
                 <li><a class="home" href="/">Home</a></li>
                 <% categories.forEach(category => { %>
-                    <% if (category.status === 'active') { %>
                         <li><a href="/<%= category.slug %>"><%= category.name %></a></li>
-                    <% } %>
                 <% }); %>
             </ul>
 

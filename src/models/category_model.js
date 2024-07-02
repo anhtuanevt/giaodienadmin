@@ -9,6 +9,12 @@ const CategoryModel = new Schema({
         type: String, 
         required: true 
     },
+    description: {
+        type: String,
+    },
+    photo: {
+        type: String,
+    },
     status: {
         type: String, 
         enum: ['active', 'inactive'],

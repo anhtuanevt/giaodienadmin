@@ -3,52 +3,22 @@ const express = require('express')
 const router = express.Router()
 const settingsController = require('../../controllers/settings_controller')
 const {asyncHandle} = require('../../utils/asyncHandle');
+const {createUploader} = require('../../configs/multer')
+const upload  = createUploader('settings')
 
 router
     .route('/')
     .get(asyncHandle(settingsController.getSettings))
 
 router
-    .route('/email-settings')
-    .post(asyncHandle(settingsController.addEmailSettings))
+    .route('/')
+    .post(asyncHandle(settingsController.updateSettings))
 
 router
-    .route('/email-settings')
-    .put(asyncHandle(settingsController.updateEmailSettings))
-// router
-//     .route('/form(/:id)?')
-//     .get(contactController.getContactById)
+    .route('/upload-photo')
+    .post(upload.fields([{name: 'logo', maxCount: 1}, {name: 'banner1', maxCount: 1},
+                        {name:'banner2', maxCount: 1}, {name:'banner3', maxCount: 1}]),
+     asyncHandle(settingsController.uploadImage));
 
-// router
-//     .route('/form')
-//     .post(contactController.addContact)
-
-// router
-//     .route('/form/:id')
-//     .post(contactController.updateContactById)
-
-// router
-//     .route('/form/:id')
-//     .delete(categoryController.deleteCategoryById)
-
-// router
-//     .route('/update-multi-status/:status')
-//     .post(categoryController.updateMultiStatus)
-
-// router
-//     .route('/update-single-status')
-//     .post(categoryController.updateSingleStatus)
-
-// router
-//     .route('/update-ordering')
-//     .post(categoryController.updateOrdering)
-
-// router
-//     .route('/')
-//     .delete(categoryController.deleteCategory)
-
-// router
-//     .route('/delete/:id')
-//     .get(categoryController.deleteCategoryById)
 
 module.exports = router;

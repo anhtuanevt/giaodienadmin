@@ -9,6 +9,10 @@ router
     .get(contactController.getContact)
 
 router
+    .route('/')
+    .delete(contactController.deleteContact)
+
+router
     .route('/form(/:id)?')
     .get(contactController.getContactById)
 
@@ -19,27 +23,6 @@ router
 router
     .route('/form/:id')
     .post(contactController.updateContactById)
-
-
-// router
-//     .route('/form/:id')
-//     .delete(categoryController.deleteCategoryById)
-
-// router
-//     .route('/update-multi-status/:status')
-//     .post(categoryController.updateMultiStatus)
-
-// router
-//     .route('/update-single-status')
-//     .post(categoryController.updateSingleStatus)
-
-// router
-//     .route('/update-ordering')
-//     .post(categoryController.updateOrdering)
-
-// router
-//     .route('/')
-//     .delete(categoryController.deleteCategory)
 
 router
     .route('/delete/:id')

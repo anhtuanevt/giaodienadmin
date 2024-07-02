@@ -1,0 +1,21 @@
+	<!-- carousel box -->
+			<div class="carousel-box owl-wrapper">
+				<div class="title-section">
+					<h1><span>Có thể bạn quan tâm</span></h1>
+				</div>
+				<div class="owl-carousel" data-num="3">
+					<!-- 330x228 -->
+					<% latestArticles.forEach(article => { %>
+					<div class="item news-post image-post3">
+						<img src="<%=helper.transformPhoto(article.thumbnail, 330, 228)%>" alt="">
+						<div class="hover-box">
+							<h2><a href="/<%=article._id%>"><%=article.name%></a></h2>
+							<ul class="post-tags">
+								<li><i class="fa fa-clock-o"></i><%=helper.formatDate(article.createdAt)%></li>
+							</ul>
+						</div>
+					</div>
+					<% }) %>
+				</div>
+			</div>
+			<!-- End carousel box -->

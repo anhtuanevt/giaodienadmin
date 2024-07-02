@@ -3,7 +3,7 @@
 
 <div class="row mb-2">
     <div class="col-sm-6">
-        <h1 class="m-0">Danh mục sản phẩm</h1>
+        <h1 class="m-0">Danh mục</h1>
     </div>
 </div>
 <%- locals.flash %>
@@ -42,7 +42,7 @@
 			<div class="mb-1">
 				<form action="#" method="get">
 					<div class="input-group">
-						<input type="text" class="form-control form-control-sm" id="keyword" name="keyword" value="" placeholder="Search for..." style="min-width: 300px">
+						<input type="text" class="form-control form-control-sm" id="highlighter" name="keyword" value="" placeholder="Search for..." style="min-width: 300px" onkeyup="highlight()">
 						<div class="input-group-append">
 							<a type="button" class="btn btn-sm btn-danger" id="btn-clear"  href="#">Clear</a>
 							<button type="submit" class="btn btn-sm btn-info" id="btn-search">Search</button>
@@ -78,7 +78,7 @@
 					</div>
 				</div>
 			<a href="<%=linkPrefix%>/form" class="btn btn-warning" style="background-color: #F0AD4E; color: white; font-weight: 500;">Add New</a>
-			<button type="button" class="btn btn-danger" onClick="deleteMulti('<%=linkPrefix%>')" data-toggle="modal" data-target="#modal-danger">
+			<button type="button" class="btn btn-danger" onClick="deleteMulti('<%=linkPrefix%>')" data-toggle="modal">
 				<i class="fas fa-trash-alt"></i>Delete Multi
 			</button>
 		</div>
@@ -103,6 +103,7 @@
 						<th class="text-center">Name</a></th>
 						<th class="text-center">Status</a></th>
 						<th class="text-center">Ordering</a></th>
+						<th class="text-center">Photo</a></th>
 						<th class="text-center">Action</th>
 					</tr>
 				</thead>
@@ -116,7 +117,7 @@
 							</div>
 						</td>
 						<td class="text-center"><%=index+1%></td>
-						<td class="text-center"><span><%=category.name%></span></td>
+						<td id="content" class="text-center inputText" onkeyup="highlight()"><span><%=category.name%></span></td>
 
 						<td id = "status-<%=category._id%>" class="text-center position-relative">
 							<a href="javascript:changeStatus('<%=linkChangStatus%>', '<%=category._id%>', '<%=category.status%>')" 
@@ -127,6 +128,10 @@
 
 						<td class="text-center position-relative" >
 							<input data-id="<%=category._id%>" type="number" name="items-ordering" value="<%=category.ordering%>" class="text-center ordering">
+						</td>
+
+						<td class="text-center position-relative" >
+							<img src="<%= category.photo %>" alt="photo" style="width: 100px; height: 50px; margin-right: 10px;">
 						</td>
 
 						<td class="text-center">

@@ -3,6 +3,8 @@ const express = require('express')
 const router = express.Router()
 const categoryController = require('../../controllers/category_controller')
 const {asyncHandle} = require('../../utils/asyncHandle');
+const {createUploader} = require('../../configs/multer')
+const upload = createUploader('category')
 
 router
     .route('/')
@@ -10,7 +12,7 @@ router
 
 router
     .route('/form/:id')
-    .post(asyncHandle(categoryController.updateCategoryById))
+    .post(upload.single('photo'), asyncHandle(categoryController.updateCategoryById))
 
 router
     .route('/form(/:id)?')
@@ -18,7 +20,7 @@ router
 
 router
     .route('/form')
-    .post(asyncHandle(categoryController. addCategory))
+    .post(upload.single('photo'), asyncHandle(categoryController.addCategory))
 
 router
     .route('/form/:id')
@@ -43,4 +45,5 @@ router
 router
     .route('/delete/:id')
     .get(asyncHandle(categoryController.deleteCategoryById))
+    
 module.exports = router;

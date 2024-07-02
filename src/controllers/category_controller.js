@@ -7,8 +7,9 @@ module.exports = {
     getCategory :async(req, res, next) => {
         let query = (req.query.status) ? {status: req.query.status} : {}
         const filter_categories = await categoryService.getCategoryList(query);
+        const categories = res.locals.categories
 
-        const categories = await categoryService.getCategoryList({})
+        // const categories = await categoryService.getCategoryList({})
         const activeCategories = categories.filter(category => category.status === 'active');
         const inactiveCategories = categories.filter(category => category.status === 'inactive');
 
@@ -31,7 +32,8 @@ module.exports = {
 
     addCategory : async (req , res , next) => {
         const data = req.body
-        const result = await categoryService.addCategory(data);
+        const photo = req.file
+        const result = await categoryService.addCategory(data, photo);
         if(result._id) {
         req.flash('success', 'Category updated successfully!',false);
             res.redirect(`/admin/${item}`);
@@ -39,11 +41,10 @@ module.exports = {
     },
 
     updateCategoryById : async (req , res , next) => {
-        console.log('updateCategoryById', req.params.id, req.query)
         const categoryId = req.params.id;
         const data = req.body
-        console.log('date', data, categoryId)
-        const result = await categoryService.updateCategoryById(categoryId, data);
+        const photo = req.file
+        const result = await categoryService.updateCategoryById(categoryId, data, photo);
         if(result._id) res.redirect(`/admin/${item}`)
     },
 
@@ -57,7 +58,6 @@ module.exports = {
         const data = req.body
         const Ids= data['ids[]']
         const status = data.status
-        console.log("data", Ids, status)
         const result = await categoryService.updateMultiStatus(Ids, status);
         res.send({
         success: true,
@@ -84,8 +84,8 @@ module.exports = {
     },
 
     deleteCategory : async (req , res , next) => {
-        const ids= req.body.ids
-        console.log("Das", req.body)
+        const data= req.body
+        const ids= data['Ids[]']
         const result = await categoryService.deleteCategory(ids);
         res.send({
             success: true,

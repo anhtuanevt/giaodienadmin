@@ -1,4 +1,4 @@
-const emailSettingsModel = require('../models/email_settings')
+const settingsModel = require('../models/settings_model')
 
 module.exports = {
     getEmailSettings : async () => {
@@ -7,15 +7,16 @@ module.exports = {
         return result
     },
 
-    addEmailSettings : async (data) => {
-        const result = await emailSettingsModel.create(data)
+    getSettings : async () => {
+        const result = await settingsModel.findOne({}).sort({createdAt: -1}) 
+        if (!result) return {};
         return result
     },
 
-    updateEmailSettings : async (data) => {
-        const item = await emailSettingsModel.findOne({}).sort({createdAt: -1})
+    updateSettings: async (data) => {
+        const item = await settingsModel.findOne({}).sort({createdAt: -1})
         if (!item) return null; 
-        const result = await emailSettingsModel.updateOne({_id: item._id}, data)
+        const result = await settingsModel.updateOne({_id: item._id}, data)
         return result
     }
 }

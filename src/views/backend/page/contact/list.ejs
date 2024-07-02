@@ -73,7 +73,7 @@
 					</div>
 				</div>
 			<a href="<%=linkPrefix%>/form" class="btn btn-warning" style="background-color: #F0AD4E; color: white; font-weight: 500;">Add New</a>
-			<button type="button" class="btn btn-danger" onClick="" data-toggle="modal" data-target="#modal-danger">
+			<button type="button" class="btn btn-danger" data-toggle="modal" onClick="deleteMulti('<%=linkPrefix%>')">
 				<i class="fas fa-trash-alt"></i>Delete Multi
 			</button>
 		</div>
@@ -90,7 +90,7 @@
 					<tr>
 						<th class="text-center">
 							<div class="custom-control custom-checkbox">
-								<input class="custom-control-input checkAll" type="checkbox" id="check-all">
+								<input class="custom-control-input checkAll" type="checkbox" id="check-all" onclick="toggleSelectAll(this)">
 								<label for="check-all" class="custom-control-label"></label>
 							</div>
 						</th>
@@ -107,7 +107,7 @@
                     <tr>
 						<td class="text-center">
 							<div class="custom-control custom-checkbox">
-								<input class="custom-control-input checkbox" type="checkbox" name="cid" id="check<%=index+1%>" value="<%=index+1%>">
+								<input class="custom-control-input checkbox" data-id="<%=contact._id%>" type="checkbox" name="cid" id="check<%=index+1%>" value="<%=index+1%>">
 								<label for="check<%=index+1%>" class="custom-control-label"></label>
 							</div>
 						</td>

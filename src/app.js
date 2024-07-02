@@ -13,6 +13,15 @@ var indexRouter = require('./routes/index');
 var app = express();
 db.connect();
 
+// db.dropIndex('articles', 'slug_1_tags_1_category_id_1_name_text_title_text_description_text');
+db.createIndex('articles', { slug: 1});
+db.createIndex('articles', { tags: 1});
+db.createIndex('articles', { category_id: 1});
+db.createIndex('articles', { is_hot: 1});
+db.createIndex('articles', { is_home : 1});
+db.createIndex('articles', { createdAt: -1 });
+db.createIndex('articles',{ name: "text", title: "text", description: "text" })
+
 app.use(cookieParser());
 app.use(session({
     secret: 'your_secret_key', // Add a secret key for session encoding

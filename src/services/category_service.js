@@ -7,7 +7,8 @@ module.exports = {
         return await categoryModel.find(query)
     },
 
-    addCategory : async (data) => {
+    addCategory : async (data, photo) => {
+        data.photo = photo.path
         return await categoryModel.create(data)
     },
 
@@ -17,7 +18,8 @@ module.exports = {
         return result;
     },
 
-    updateCategoryById :  async (categoryId, data) => {
+    updateCategoryById :  async (categoryId, data, photo) => {
+        data.photo = photo ? photo.path : data.photo
         return await categoryModel.findByIdAndUpdate(categoryId, data, { new: true, runValidators: true })
     },
 
@@ -51,9 +53,9 @@ module.exports = {
         }
     },
 
-    deleteCategory: async (Ids, status) => {
+    deleteCategory: async (ids) => {
         const result = await categoryModel.deleteMany(
-            { _id: { $in: Ids } })
+            { _id: { $in: ids } })
         return result;
     },
 }

@@ -2,11 +2,21 @@ const express = require('express')
 
 const router = express.Router()
 const articleController = require('../../controllers/article_controller')
-const {upload} = require('../../configs/multer')
 const {asyncHandle} = require('../../utils/asyncHandle');
+const {createUploader} = require('../../configs/multer')
+const upload = createUploader('article')
+
 router
     .route('/')
     .get(asyncHandle(articleController.getArticle))
+
+router
+    .route('/')
+    .post(asyncHandle(articleController.searchArticles))
+
+router
+    .route('/')
+    .delete(asyncHandle(asyncHandle(articleController.deleteArticle)))
 
 router
     .route('/form(/:id)?')
@@ -35,10 +45,6 @@ router
 router
     .route('/upload-photos')
     .post(upload.single('thumbnail'), asyncHandle(articleController.uploadPhotos))
-
-router
-    .route('/')
-    .delete(asyncHandle(articleController.deleteArticle))
 
 router
     .route('/delete/:id')
